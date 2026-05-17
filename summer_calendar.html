@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lisa's Summer 2026 Activity Calendar</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ch:#f97316;--chl:#fff7ed;--fa:#7c3aed;--fal:#f5f3ff;--fr:#16a34a;--rc:#0369a1;--bg:#fafaf9;--su:#fff;--tx:#1c1917;--mu:#78716c;--bd:#e7e5e4}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.5}
+.hdr{background:linear-gradient(135deg,#f97316,#7c3aed);color:#fff;padding:20px 16px 14px;text-align:center}
+.hdr h1{font-size:1.4rem;font-weight:700}.hdr p{font-size:.82rem;opacity:.9;margin-top:3px}
+.ctrl{background:#fff;border-bottom:1px solid var(--bd);padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:0;z-index:20}
+.fb{border:1.5px solid var(--bd);background:#fff;border-radius:20px;padding:5px 13px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.fb.aa{background:#1c1917;border-color:#1c1917;color:#fff}
+.fb.ac{background:var(--ch);border-color:var(--ch);color:#fff}
+.fb.af{background:var(--fa);border-color:var(--fa);color:#fff}
+.fb.ar{background:var(--fr);border-color:var(--fr);color:#fff}
+.vt{margin-left:auto;display:flex;border:1.5px solid var(--bd);border-radius:8px;overflow:hidden}
+.vb{border:none;background:#fff;padding:5px 12px;font-size:.8rem;font-weight:600;cursor:pointer}
+.vb.on{background:#1c1917;color:#fff}
+.sb{border:1.5px solid var(--bd);border-radius:20px;padding:5px 12px;font-size:.82rem;width:130px;outline:none}
+.sb:focus{border-color:var(--ch)}
+.leg{display:flex;gap:12px;padding:8px 12px;background:#fff;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--mu)}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+#lv{padding:12px;display:flex;flex-direction:column;gap:6px}
+.mh{font-size:.9rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.7px;padding:10px 0 5px;border-bottom:1px solid var(--bd);margin-top:6px}
+.ec{background:#fff;border-radius:10px;border:1.5px solid var(--bd);border-left:4px solid var(--bd);padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.08);cursor:pointer}
+.ec.cc{border-left-color:var(--ch)}.ec.cf{border-left-color:var(--fa)}.ec.hidden{display:none!important}
+.eh{display:flex;align-items:flex-start;gap:8px}
+.en{font-weight:700;font-size:.92rem;flex:1}
+.tg{font-size:.68rem;font-weight:700;border-radius:4px;padding:2px 6px;text-transform:uppercase;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.tc{background:var(--chl);color:var(--ch)}.tf{background:var(--fal);color:var(--fa)}
+.tfr{background:#dcfce7;color:var(--fr)}.tr{background:#e0f2fe;color:var(--rc)}
+.em{margin-top:6px;font-size:.8rem;color:var(--mu);display:flex;flex-direction:column;gap:2px}
+.em span{display:flex;gap:4px}
+.et{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.an{font-size:.78rem;color:var(--mu);margin-top:5px;font-style:italic}
+#cv{padding:12px;display:none}
+.wb{margin-bottom:18px}
+.wl{font-size:.82rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid var(--bd)}
+.dhs{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px}
+.dhl{text-align:center;font-size:.65rem;font-weight:700;color:var(--mu);text-transform:uppercase}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cd{min-height:76px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:4px}
+.cd.oor{background:#f5f5f4;opacity:.4}.cd.tod{border-color:var(--ch);background:var(--chl)}
+.dn{font-size:.7rem;font-weight:700;color:var(--mu);margin-bottom:2px}.dn.tn{color:var(--ch)}
+.ce{font-size:.58rem;font-weight:600;border-radius:3px;padding:1px 3px;margin-bottom:2px;line-height:1.3;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ce.cc{background:var(--chl);color:var(--ch);border-left:2px solid var(--ch)}
+.ce.cf{background:var(--fal);color:var(--fa);border-left:2px solid var(--fa)}
+.ce.hidden{display:none!important}
+.me{font-size:.58rem;color:var(--mu);font-weight:600}
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:flex-end;justify-content:center}
+.mbg.open{display:flex}
+.mdl{background:#fff;border-radius:16px 16px 0 0;padding:20px 18px 36px;width:100%;max-width:520px;animation:su .2s ease;position:relative}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhd{width:36px;height:4px;background:var(--bd);border-radius:2px;margin:0 auto 14px}
+.mn{font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.mr{display:flex;gap:8px;font-size:.85rem;margin-bottom:6px}
+.ml{color:var(--mu);width:58px;flex-shrink:0;font-size:.78rem}
+.murl{display:inline-block;margin-top:10px;font-size:.82rem;color:var(--ch);font-weight:600;text-decoration:none}
+.mcl{position:absolute;top:14px;right:14px;background:var(--bd);border:none;width:28px;height:28px;border-radius:50%;font-size:1rem;cursor:pointer;line-height:28px}
+@media print{
+  .ctrl,.leg,.mbg{display:none!important}
+  body{background:#fff;font-size:11px}
+  .hdr{background:#f97316!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:10px}
+  .hdr h1{font-size:1rem}
+  #lv,#cv{display:none!important}
+  .wp{display:block!important;page-break-before:always;page-break-inside:avoid;padding:12px}
+  .wp:first-of-type{page-break-before:auto}
+  .wph{font-size:.75rem;font-weight:700;color:#555;text-transform:uppercase;border-bottom:2px solid #f97316;padding-bottom:4px;margin-bottom:8px}
+  .wpg{display:grid!important;grid-template-columns:repeat(7,1fr);gap:5px}
+  .wpd{border:1px solid #ddd;border-radius:5px;padding:5px;min-height:90px}
+  .wpdn{font-size:.62rem;font-weight:700;color:#888;text-transform:uppercase}
+  .wpdt{font-size:.95rem;font-weight:700;margin:2px 0 4px}
+  .wpe{font-size:.58rem;line-height:1.3;padding:2px 3px;border-radius:3px;margin-bottom:2px}
+  .wpe.cc{background:#fff7ed;color:#f97316;border-left:2px solid #f97316}
+  .wpe.cf{background:#f5f3ff;color:#7c3aed;border-left:2px solid #7c3aed}
+  .wpd.oor{opacity:.35}
+  .ec.hidden{display:none!important}
+}
+.wp{display:none}
+.ep{opacity:.42}
+#ss{font-size:.72rem;margin-top:5px;color:rgba(255,255,255,.82)}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <h1>&#9728;&#65039; Lisa's Summer 2026 Calendar</h1>
+  <p>Northwest Metro Atlanta &middot; May 16 – August 17</p>
+  <div id="ss">Syncing your Google Calendar…</div>
+</header>
+<div class="ctrl">
+  <button class="fb aa" onclick="sf('all',this)">All Events</button>
+  <button class="fb" onclick="sf('child',this)">&#129505; Kids</button>
+  <button class="fb" onclick="sf('family',this)">&#128156; Family</button>
+  <button class="fb" onclick="sf('free',this)">&#9989; Free</button>
+  <button id="ptb" class="fb" onclick="togglePast()">&#9197; Past</button>
+  <input class="sb" type="search" placeholder="&#128269; Search&hellip;" oninput="ds(this.value)">
+  <div class="vt">
+    <button class="vb on" onclick="sv('list',this)">List</button>
+    <button class="vb" onclick="sv('cal',this)">Calendar</button>
+  </div>
+</div>
+<div class="leg">
+  <div class="li"><div class="dot" style="background:var(--ch)"></div>Kids/Toddler</div>
+  <div class="li"><div class="dot" style="background:var(--fa)"></div>Family</div>
+  <div class="li"><div class="dot" style="background:var(--fr)"></div>Free</div>
+  <div class="li"><div class="dot" style="background:var(--rc);border-radius:2px"></div>Recurring</div>
+</div>
+<div id="lv"></div>
+<div id="cv"></div>
+<div id="pw"></div>
+<div class="mbg" id="modal" onclick="if(event.target===this)cm()">
+  <div class="mdl">
+    <div class="mhd"></div>
+    <button class="mcl" onclick="cm()">&#10005;</button>
+    <div class="mn" id="mn"></div>
+    <div class="mr"><span class="ml">&#128197; Dates</span><span id="md"></span></div>
+    <div class="mr" id="mtr"><span class="ml">&#128336; Time</span><span id="mt"></span></div>
+    <div class="mr" id="mvr"><span class="ml">&#128205; Where</span><span id="mv"></span></div>
+    <div class="mr" id="mcr"><span class="ml">&#128176; Cost</span><span id="mc"></span></div>
+    <div class="mr" id="mar"><span class="ml">&#128118; Ages</span><span id="ma"></span></div>
+    <a id="mu" class="murl" href="#" target="_blank" rel="noopener">&#128279; More info &rarr;</a>
+    <div id="mga" class="an" style="display:none">&#10010; Added from your Summer 2026 Google Calendar</div>
+  </div>
+</div>
+<script>
+var E=[{"name":"Marietta Square Farmers Market","dates":"Every Saturday, May 16–Aug 15","time":"9:00 AM–12:00 PM","venue":"Marietta Square, 41 Mill Street","city":"Marietta","cost":"Free","ageNotes":"All ages; high-socialization for families","url":"https://mariettaga.gov","category":"child","recurring":true},{"name":"Acworth Farmers Market","dates":"Every Fri & Sat, May 16–Aug 15","time":"8:00 AM–12:00 PM","venue":"Logan Farm Park, 4405 Cherokee St","city":"Acworth","cost":"Free","ageNotes":"All ages","url":"https://acworth.com","category":"child","recurring":true},{"name":"Canton Farmers Market","dates":"Every Saturday, May 30–Aug 15","time":"~8:00 AM–12:00 PM","venue":"Brown Park, 251 E. Marietta St","city":"Canton","cost":"Free","ageNotes":"All ages","url":null,"category":"child","recurring":true},{"name":"Toddler Playtime – Roswell Library","dates":"Most Mondays, May 18–Aug 17","time":"10:30–11:30 AM","venue":"Roswell Branch Library Kids Area","city":"Roswell","cost":"Free","ageNotes":"Ages birth–5; self-supervised open play","url":null,"category":"child","recurring":true},{"name":"Baby Storytime – Mountain View Library","dates":"Wednesdays, May 20–Aug 12","time":"10:30 AM","venue":"Mountain View Public Library","city":"Marietta","cost":"Free","ageNotes":"Ages 0–18 months; includes Stay & Play","url":null,"category":"child","recurring":true},{"name":"Bilingual Storytime: Mandarin/English","dates":"Wednesdays, Jun 10–Aug 12","time":"6:30–7:00 PM","venue":"Mountain View Public Library Children's Room","city":"Marietta","cost":"Free","ageNotes":"Ages 2–5","url":null,"category":"child","recurring":true},{"name":"Toddler Jump Time – Champion Kids","dates":"Every Thursday, May 28–Aug 13","time":"9:30–11:30 AM","venue":"Champion Kids, 1465 Canton Road","city":"Marietta","cost":"$10/child; $5 siblings/crawlers","ageNotes":"Ages 0–5 ONLY (strictly enforced)","url":"https://championkids.com","category":"child","recurring":true},{"name":"The Music Class – Summer Session (Dolphin Collection)","dates":"Weekly 7 weeks starting May 29–Jun 4","time":"Tues 10:30 AM (East Cobb); Mon 9:30 AM (Roswell)","venue":"Chestnut Ridge Christian Church (East Cobb) & Olde Alabama Commons (Roswell)","city":"Marietta / Roswell","cost":"$175/session; free trial available","ageNotes":"Infant–4 years","url":"https://themusicclass.com","category":"child","recurring":true},{"name":"Mommy & Me at Southern Museum","dates":"Select Thursdays: May 21, 28, Jun 4, 18, 25","time":"9:30 AM–12:30 PM","venue":"Southern Museum","city":"Kennesaw","cost":"Free with museum admission ($5–$10; under 2 free)","ageNotes":"Toddler-friendly; creative play & themed discovery","url":null,"category":"child","recurring":true},{"name":"Marietta Square Art Walk","dates":"First Fridays: Jun 5, Jul 3, Aug 7","time":"5:00–9:00 PM","venue":"Marietta Square","city":"Marietta","cost":"Free","ageNotes":"All ages","url":null,"category":"child","recurring":true},{"name":"12th Annual Kettle Krush 5K/1K/Tot Trot","dates":"May 16","time":"8:00–11:00 AM","venue":"Marietta Square","city":"Marietta","cost":null,"ageNotes":"Includes Tot Trot for young children","url":null,"category":"child","recurring":false},{"name":"Pop-In For Family Fun: Rockets & Robots","dates":"May 16","time":"11:00 AM–2:00 PM","venue":"Marietta History Center","city":"Marietta","cost":"Free","ageNotes":"Hands-on STEM activities and crafts","url":null,"category":"child","recurring":false},{"name":"Outdoor Movie: Atlantis – The Lost Empire","dates":"May 16","time":"Games 6:00 PM; Movie at sundown","venue":"Swift-Cantrell Park","city":"Kennesaw","cost":"Free; VIP tents $50","ageNotes":"Rated PG; toddler-friendly outdoor setting","url":null,"category":"child","recurring":false},{"name":"Kids Day America – West Cobb","dates":"May 16","time":"10:00 AM–1:00 PM","venue":"West Cobb Chiropractic","city":"Powder Springs","cost":"Free","ageNotes":"Children's health, safety & environment","url":null,"category":"child","recurring":false},{"name":"Marietta Greek Festival","dates":"May 16–17","time":"Sat 11 AM–10:30 PM; Sun 11 AM–4 PM","venue":"Holy Transfiguration Greek Orthodox Church","city":"Marietta","cost":"Small entry fee; under 12 free","ageNotes":"Includes Kids' Zone and cultural dance","url":null,"category":"child","recurring":false},{"name":"A Garden With Wings Butterfly House (Opens)","dates":"May 19 – Aug 15 (season)","time":null,"venue":"Smith-Gilbert Gardens","city":"Kennesaw","cost":"Garden admission fee","ageNotes":"Kid-friendly pollinator garden; ideal for toddlers","url":null,"category":"child","recurring":false},{"name":"Summer Starts at Oasis / East Roswell Sprayground Opens","dates":"May 23 (season opening)","time":null,"venue":"East Roswell Sprayground","city":"Roswell","cost":"Free","ageNotes":"Seasonal water play","url":null,"category":"child","recurring":false},{"name":"Acworth Memorial Day Ceremony","dates":"May 23","time":"10:00 AM","venue":"Cauble Park at Patriots Point","city":"Acworth","cost":null,"ageNotes":"All ages; formal community ceremony","url":null,"category":"child","recurring":false},{"name":"Glover Park Concert: A1A (Jimmy Buffett Tribute)","dates":"May 29","time":"8:00 PM","venue":"Glover Park on the Marietta Square","city":"Marietta","cost":"Free; table reservations $75–$85","ageNotes":"Family-friendly outdoor concert","url":null,"category":"child","recurring":false},{"name":"Summer Reading Challenge 2026","dates":"Jun 1–Jul 31","time":null,"venue":"All public libraries & online (Beanstack)","city":"Regional","cost":"Free","ageNotes":"All ages; prizes for reading 20 min/day","url":"https://cobbsummerreading.com","category":"child","recurring":false},{"name":"Disney Princess Movie: Cinderella","dates":"Jun 3","time":"11:00 AM & 2:30 PM","venue":"Earl and Rachel Smith Strand Theatre","city":"Marietta","cost":null,"ageNotes":"Toddler-friendly; princess meet-and-greet","url":null,"category":"child","recurring":false},{"name":"Summer Family Movie: Lilo & Stitch","dates":"Jun 4","time":"10:00 AM & 2:00 PM","venue":"Historic Canton Theatre","city":"Canton","cost":null,"ageNotes":"All ages indoor screening","url":null,"category":"child","recurring":false},{"name":"Outdoor Movie: Madagascar","dates":"Jun 6","time":"6:00 PM start","venue":"Swift-Cantrell Park","city":"Kennesaw","cost":"Free","ageNotes":"Rated PG; giant LED screen","url":null,"category":"child","recurring":false},{"name":"4th Annual Summer Sacks Full of Books Giveaway","dates":"Jun 6","time":"12:00 PM","venue":"Milford Recreation Center","city":"Marietta","cost":"Free","ageNotes":"Book giveaway for youth","url":null,"category":"child","recurring":false},{"name":"Disney Princess Movie: Frozen","dates":"Jun 10","time":"11:00 AM & 2:30 PM","venue":"Strand Theatre","city":"Marietta","cost":null,"ageNotes":"Photos with real-life princesses before show","url":null,"category":"child","recurring":false},{"name":"Marietta SoccerFest '26","dates":"Jun 12–14","time":null,"venue":"Marietta Square (Fri/Sat); Franklin Gateway Sports Complex (Sun)","city":"Marietta","cost":null,"ageNotes":"Kids' Gateway to the Goal on Sunday for younger children","url":null,"category":"child","recurring":false},{"name":"Woodstock Summer Concert: Carly Pearce","dates":"Jun 13","time":"7:30–10:00 PM","venue":"Northside Hospital-Cherokee Amphitheater","city":"Woodstock","cost":"Free","ageNotes":"All ages; shuttles from 5 PM","url":null,"category":"child","recurring":false},{"name":"Juneteenth Concert on the Green","dates":"Jun 20","time":"7:00–9:00 PM","venue":"Logan Farm Park","city":"Acworth","cost":"Free","ageNotes":"Community live music; all ages","url":null,"category":"child","recurring":false},{"name":"Juneteenth Cultural Festival","dates":"Jun 20","time":"10:00 AM–7:00 PM","venue":"Marietta Square","city":"Marietta","cost":"Free","ageNotes":"Education, culture, unity; all ages","url":null,"category":"child","recurring":false},{"name":"Glover Park Concert: Guardians of the Jukebox (80s Tribute)","dates":"Jun 26","time":"8:00 PM","venue":"Glover Park","city":"Marietta","cost":"Free","ageNotes":"Family-friendly","url":null,"category":"child","recurring":false},{"name":"Salute to America","dates":"Jul 3","time":"6:00–10:00 PM","venue":"Historic Downtown Kennesaw","city":"Kennesaw","cost":"Free","ageNotes":"Kids' activities & fireworks","url":null,"category":"child","recurring":false},{"name":"Independence Eve Concert – Drivin n' Cryin","dates":"Jul 3","time":"7:00 PM","venue":"Marietta Square","city":"Marietta","cost":"Free","ageNotes":"All ages outdoor concert","url":null,"category":"child","recurring":false},{"name":"4th In The Park Celebration","dates":"Jul 4","time":"10:00 AM–10:00 PM","venue":"Marietta Square and Glover Park","city":"Marietta","cost":"Free","ageNotes":"Morning parade & Kids' Zone; toddler-friendly","url":null,"category":"child","recurring":false},{"name":"Acworth 4th of July Celebration","dates":"Jul 4","time":"Opens 4:00 PM; fireworks at sundown","venue":"Cauble Park","city":"Acworth","cost":null,"ageNotes":"Bounce houses, face painting, lakeside fireworks","url":null,"category":"child","recurring":false},{"name":"Woodstock Summer Concert: Midnight Star","dates":"Jul 11","time":"7:30–10:00 PM","venue":"Northside Hospital-Cherokee Amphitheater","city":"Woodstock","cost":"Free","ageNotes":"All ages","url":null,"category":"child","recurring":false},{"name":"America's 250th Birthday Party","dates":"Jul 18","time":"7:30–9:30 PM","venue":"Etowah River Park","city":"Canton","cost":null,"ageNotes":"Community semi-quincentennial celebration","url":null,"category":"child","recurring":false},{"name":"Big Rig Back-to-School Bash","dates":"Jul 25","time":"9:00 AM–2:00 PM","venue":"Logan Farm Park","city":"Acworth","cost":null,"ageNotes":"Family readiness event","url":null,"category":"child","recurring":false},{"name":"The Happy Black Parent Children's Book Festival","dates":"Jul 25","time":"10:00 AM","venue":"Pittsburgh Yards area","city":"Roswell","cost":"Free – $","ageNotes":"Children's books & authors","url":null,"category":"child","recurring":false},{"name":"Glover Park Concert: Seven Bridges (Eagles Tribute)","dates":"Jul 31","time":"8:00 PM","venue":"Glover Park","city":"Marietta","cost":"Free","ageNotes":"Family-friendly","url":null,"category":"child","recurring":false},{"name":"Woodstock Summer Concert: Pop 2000 Tour","dates":"Aug 8","time":"7:30–10:00 PM","venue":"Northside Hospital-Cherokee Amphitheater","city":"Woodstock","cost":"Free","ageNotes":"All ages","url":null,"category":"child","recurring":false},{"name":"Spring Awakening (Theatre Production)","dates":"Aug 14–30","time":null,"venue":"Woodstock Arts Theatre","city":"Woodstock","cost":null,"ageNotes":"Season opener","url":"https://woodstockarts.org","category":"child","recurring":false},{"name":"VBS: Rainforest Falls (Roswell Presbyterian & Mount Paran North)","dates":"Jun 1–4","time":"9:00 AM–12:15 PM","venue":"Roswell Presbyterian / Mount Paran North","city":"Roswell / Marietta","cost":"Free","ageNotes":"Ages 4–6th grade","url":null,"category":"child","recurring":false},{"name":"Kindercamp: Angelina Ballerina's Big Ballet Dreams","dates":"Jun 1–5","time":"8:30 AM–12:00 PM","venue":"Tolbert Yilmaz School of Dance","city":"Roswell","cost":"$400","ageNotes":"Preschool dancers","url":null,"category":"child","recurring":false},{"name":"VBS: Rome – Paul and the Underground Church","dates":"Jun 8–12","time":"9:30 AM–12:30 PM","venue":"Transfiguration Catholic Church","city":"Marietta","cost":"$30","ageNotes":"Ages 3–5th grade","url":null,"category":"child","recurring":false},{"name":"Summer Improv Camp – Canton Theatre","dates":"Jun 8–12","time":"9:00 AM–12:00 PM","venue":"Canton Theatre","city":"Canton","cost":"$225","ageNotes":"Ages 9–16","url":null,"category":"child","recurring":false},{"name":"VBS: Methodist & Presbyterian (Little River & Eastminster)","dates":"Jun 15–19","time":"9:00 AM–12:00 PM","venue":"Little River Methodist / Eastminster Presbyterian","city":"Regional","cost":"$30 (Eastminster)","ageNotes":"Ages 4–5th grade","url":null,"category":"child","recurring":false},{"name":"Tumbling & Gymnastics Camp","dates":"Jul 13–17","time":"8:00 AM–3:00 PM","venue":"MCAA","city":"Marietta","cost":"$239","ageNotes":"Max 3rd grade; beginners welcome","url":null,"category":"child","recurring":false},{"name":"Rad Kids & IEP Summer Safety Camps","dates":"Jul 13–16","time":"9:00 AM","venue":"Cobb County Safety Village","city":"Marietta","cost":"$25–$81","ageNotes":"Ages 5–7 and 8–12; personal safety training","url":null,"category":"child","recurring":false},{"name":"Paws Fest","dates":"May 16–17","time":"10:00 AM–4:00 PM","venue":"The Avenue West Cobb","city":"Marietta","cost":"Free","ageNotes":"Pet-friendly; dock dog demos, music, photo ops","url":null,"category":"family","recurring":false},{"name":"Family Fun Day – Cobb Kaleidoscope","dates":"May 16 (3rd Saturdays recurring)","time":"11:00 AM–4:00 PM","venue":"Marietta History Center","city":"Marietta","cost":"Free","ageNotes":"Family activities & crafts through the galleries","url":null,"category":"family","recurring":true},{"name":"Mableton Day Festival","dates":"May 30","time":"11:00 AM–4:00 PM","venue":"Mableton Town Square Park","city":"Mableton","cost":"Free","ageNotes":"Live entertainment, food, vendors; all ages","url":null,"category":"family","recurring":false},{"name":"Classic Car Cruise","dates":"May 30","time":"2:00–7:00 PM","venue":"Logan Farm Park","city":"Acworth","cost":"Free","ageNotes":"Classic vehicles; all ages","url":null,"category":"family","recurring":false},{"name":"27th Annual Flying Colors Butterfly Festival","dates":"Jun 6–7","time":"Sat 9 AM–3 PM; Sun butterfly releases 1:30 & 3:30 PM","venue":"Chattahoochee Nature Center","city":"Roswell","cost":null,"ageNotes":"Close-up butterfly encounters; family nature activities","url":"https://chattnaturecenter.org","category":"family","recurring":false},{"name":"Railroad Rendezvous","dates":"Jul 26","time":"9:30 AM–5:00 PM","venue":"Southern Museum of Civil War and Locomotive History","city":"Kennesaw","cost":null,"ageNotes":"Transportation celebration; fun-filled family activities","url":null,"category":"family","recurring":false},{"name":"Woodstock Summer Concert Series: Carly Pearce","dates":"Jun 13","time":"7:30–10:00 PM","venue":"Northside Hospital-Cherokee Amphitheater","city":"Woodstock","cost":"Free","ageNotes":"All ages; bring blankets/chairs","url":"https://woodstockconcertseries.com","category":"family","recurring":false},{"name":"Woodstock Summer Concert Series: Midnight Star","dates":"Jul 11","time":"7:30–10:00 PM","venue":"Northside Hospital-Cherokee Amphitheater","city":"Woodstock","cost":"Free","ageNotes":"All ages","url":"https://woodstockconcertseries.com","category":"family","recurring":false},{"name":"Woodstock Summer Concert Series: Pop 2000 Tour","dates":"Aug 8","time":"7:30–10:00 PM","venue":"Northside Hospital-Cherokee Amphitheater","city":"Woodstock","cost":"Free","ageNotes":"All ages","url":"https://woodstockconcertseries.com","category":"family","recurring":false},{"name":"Kennesaw Concert Series","dates":"Ongoing (check amphitheateratdepotpark.com)","time":"7:00–10:00 PM","venue":"Amphitheater at Depot Park","city":"Kennesaw","cost":"Free","ageNotes":"Tribute bands & rock icons; all ages","url":"https://amphitheateratdepotpark.com","category":"family","recurring":true},{"name":"River Rock Concert Series: Departure (Journey Tribute)","dates":"May 16","time":"6:00–9:00 PM","venue":"Etowah River Park","city":"Canton","cost":"Free","ageNotes":"Live music on the Etowah River; all ages","url":null,"category":"family","recurring":false},{"name":"Alive in Roswell Street Festival","dates":"May 21, Jun 18, Jul 16, Aug 20","time":"5:00–9:00 PM","venue":"Historic Canton Street & Antique Lot","city":"Roswell","cost":"Free","ageNotes":"Multiple live bands, food trucks, kids' games","url":null,"category":"family","recurring":true},{"name":"First Friday Concerts (Canton & Kennesaw)","dates":"Jun 5, Jul 3, Aug 7","time":"6:00–9:00 PM","venue":"Downtown Canton / Downtown Kennesaw","city":"Canton / Kennesaw","cost":"Free","ageNotes":"Community block parties; live music & family fun","url":null,"category":"family","recurring":true},{"name":"Outdoor Movie: Atlantis – The Lost Empire (Kennesaw)","dates":"May 16","time":"Activities 6:00 PM; movie at sundown","venue":"Swift-Cantrell Park","city":"Kennesaw","cost":"Free","ageNotes":"Giant inflatable screen; pre-movie games","url":null,"category":"family","recurring":false},{"name":"Outdoor Movie: Moana 2 (Kennesaw)","dates":"Jun 6","time":"Activities 6:00 PM; movie at sundown","venue":"Swift-Cantrell Park","city":"Kennesaw","cost":"Free","ageNotes":"Giant inflatable screen; all ages","url":null,"category":"family","recurring":false},{"name":"Summer Family Movie Series (Canton Theatre)","dates":"Thursdays in June & July","time":"10:00 AM & 2:00 PM","venue":"Historic Canton Theatre","city":"Canton","cost":"$1.00","ageNotes":"Budget-friendly indoor screenings","url":null,"category":"family","recurring":true},{"name":"Family to Park Movie Night (Powder Springs)","dates":"May 21","time":null,"venue":"Thurman Springs Park","city":"Powder Springs","cost":"Free","ageNotes":"Bring a picnic supper; outdoor fun","url":null,"category":"family","recurring":false},{"name":"Juneteenth Celebration & Concert on the Green (Acworth)","dates":"Jun 21","time":"Opens 5:00 PM; music 7:00–9:00 PM","venue":"Logan Farm Park","city":"Acworth","cost":"Free","ageNotes":"Community food vendors & live music","url":null,"category":"family","recurring":false},{"name":"Salute to America (Kennesaw 4th of July)","dates":"Jul 3","time":"6:00–10:00 PM; fireworks 9:30 PM","venue":"Historic Downtown Kennesaw","city":"Kennesaw","cost":"Free","ageNotes":"Concert, vendors & fireworks; all ages","url":null,"category":"family","recurring":false},{"name":"Independence Eve – Drivin N Cryin (Marietta)","dates":"Jul 3","time":"7:00 PM","venue":"Historic Marietta Square","city":"Marietta","cost":"Free","ageNotes":"Live concert kick-off to the holiday weekend","url":null,"category":"family","recurring":false},{"name":"Fourth in the Park (Marietta)","dates":"Jul 4","time":"10:00 AM–11:00 PM; fireworks ~9:30 PM","venue":"Historic Marietta Square & Glover Park","city":"Marietta","cost":"Free","ageNotes":"Parade, concerts, carnival games, fireworks","url":null,"category":"family","recurring":false},{"name":"July 4th Concert & Fireworks (Acworth)","dates":"Jul 4","time":"4:00 PM–10:00 PM; music 5:30 PM; fireworks 9:30 PM","venue":"Cauble Park","city":"Acworth","cost":"Free","ageNotes":"One of Metro Atlanta's largest fireworks shows; lakeside","url":null,"category":"family","recurring":false},{"name":"Chattahoochee River Canoe Trips","dates":"Recurring through Aug 27","time":"6:00–9:00 PM","venue":"Chattahoochee Nature Center","city":"Roswell","cost":"$30/person ($25 members)","ageNotes":"Evening paddle; all equipment provided; guided","url":"https://chattnaturecenter.org","category":"family","recurring":true},{"name":"Lake Allatoona Boys Overnight Camp","dates":"Jun 15–Jul 31","time":null,"venue":"Lake Allatoona Recreation Camp","city":"Acworth","cost":"$80–$135/week","ageNotes":"Boys ages 9–12; swimming, boating, nature trails","url":null,"category":"family","recurring":false},{"name":"Kennesaw Farmers Market","dates":"Thursdays, starting May (through summer)","time":"Morning","venue":"Downtown Kennesaw","city":"Kennesaw","cost":"Free","ageNotes":"All ages","url":null,"category":"family","recurring":true},{"name":"Farmers Market at The Battery Atlanta","dates":"Select Sundays (check schedule)","time":"Morning","venue":"Truist Park area","city":"Marietta/Cumberland","cost":"Free","ageNotes":"All ages","url":null,"category":"family","recurring":true}];
+var fi="all",se="",showPast=false;
+var ICAL_URL="https://calendar.google.com/calendar/ical/9e7714ddcad76bccd50e26fdaefdcf3a3bce9ec417e01d30c172c6539799dbb6%40group.calendar.google.com/public/basic.ics";
+var PROXY="https://api.allorigins.win/raw?url=";
+function fr(e){return!!(e.cost&&e.cost.toLowerCase().indexOf("free")===0)}
+function rd(s){
+  if(!s)return new Date(2026,4,16);
+  var m={may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7};
+  var a=s.toLowerCase().match(/\b(may|jun|june|jul|july|aug|august)\b/);
+  var d=s.match(/\b(\d{1,2})\b/);
+  if(a&&d&&m[a[1]]!==undefined)return new Date(2026,m[a[1]],+d[1]);
+  return new Date(2026,4,16);
+}
+function ld(s){
+  if(!s)return new Date(2026,7,17);
+  var m={may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7};
+  var re=/(may|jun|june|jul|july|aug|august)\s+(\d{1,2})/gi;
+  var x,last;
+  while((x=re.exec((s||"").toLowerCase()))!==null){var mo=m[x[1]];if(mo!==undefined)last=new Date(2026,mo,+x[2]);}
+  return last||new Date(2026,7,17);
+}
+function isPast(e){var t=new Date();t.setHours(0,0,0,0);return ld(e.dates||"")<t;}
+function sf(f,b){
+  fi=f;
+  document.querySelectorAll(".fb").forEach(function(x){x.className="fb";});
+  b.className="fb "+(f==="all"?"aa":f==="child"?"ac":f==="family"?"af":"ar");
+  af();
+}
+function ds(q){se=q.toLowerCase();af();}
+function af(){
+  document.querySelectorAll(".ec").forEach(function(c){
+    c.classList.toggle("hidden",!((fi==="all"||c.dataset.c===fi||(fi==="free"&&c.dataset.f==="1"))&&(!se||c.dataset.s.indexOf(se)>=0)&&(showPast||c.dataset.past!=="1")));
+  });
+  document.querySelectorAll(".ce").forEach(function(c){
+    c.classList.toggle("hidden",!((fi==="all"||c.dataset.c===fi||(fi==="free"&&c.dataset.f==="1"))&&(!se||c.dataset.s.indexOf(se)>=0)&&(showPast||c.dataset.past!=="1")));
+  });
+}
+function togglePast(){
+  showPast=!showPast;
+  var b=document.getElementById("ptb");
+  b.className=showPast?"fb aa":"fb";
+  b.innerHTML=showPast?"⌛ Hide past":"&#9197; Past";
+  af();
+}
+function sv(v,b){
+  document.querySelectorAll(".vb").forEach(function(x){x.classList.remove("on");});
+  b.classList.add("on");
+  document.getElementById("lv").style.display=v==="list"?"":"none";
+  document.getElementById("cv").style.display=v==="cal"?"block":"none";
+}
+function om(i){
+  var e=E[i];
+  document.getElementById("mn").textContent=e.name;
+  document.getElementById("md").textContent=e.dates;
+  document.getElementById("mt").textContent=e.time||"";
+  document.getElementById("mtr").style.display=e.time?"":"none";
+  document.getElementById("mv").textContent=(e.venue?e.venue+", ":"")+e.city;
+  document.getElementById("mvr").style.display="";
+  document.getElementById("mc").textContent=e.cost||"Check organizer";
+  document.getElementById("mcr").style.display="";
+  document.getElementById("ma").textContent=e.ageNotes||"";
+  document.getElementById("mar").style.display=e.ageNotes?"":"none";
+  var u=document.getElementById("mu");
+  u.style.display=e.url?"":"none";
+  if(e.url)u.href=e.url;
+  document.getElementById("modal").classList.add("open");
+  var mg=document.getElementById("mga");if(mg)mg.style.display=e.source==="gcal"?"":"none";
+}
+function cm(){document.getElementById("modal").classList.remove("open");}
+function gd(e){
+  var out=[],s=e.dates||"";
+  var mo={may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7};
+  var dw={sunday:0,monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6,sun:0,mon:1,tue:2,wed:3,thu:4,fri:5,sat:6};
+  if(e.recurring){
+    var sl=s.toLowerCase(),dows=[];
+    Object.keys(dw).forEach(function(k){if(sl.indexOf(k)>=0)dows.push(dw[k]);});
+    var rx=/(May|Jun|June|Jul|July|Aug|August)\s+(\d+)[^\d]{1,15}[\u2013\-][^\d]{0,5}(May|Jun|June|Jul|July|Aug|August)\s+(\d+)/i;
+    var rn=s.match(rx);
+    if(rn&&dows.length){
+      var sm=mo[rn[1].toLowerCase().slice(0,3)],sd=+rn[2],em=mo[rn[3].toLowerCase().slice(0,3)],ed=+rn[4];
+      if(sm!==undefined&&em!==undefined){
+        var c=new Date(2026,sm,sd),en=new Date(2026,em,ed);
+        while(c<=en){if(dows.indexOf(c.getDay())>=0)out.push(new Date(c));c.setDate(c.getDate()+1);}
+      }
+    }
+    if(!out.length){
+      var sp=s.match(/(May|Jun|June|Jul|July|Aug|August)\s+(\d+)/gi)||[];
+      sp.forEach(function(x){var p=x.match(/(May|Jun|June|Jul|July|Aug|August)\s+(\d+)/i);if(p&&mo[p[1].toLowerCase().slice(0,3)]!==undefined)out.push(new Date(2026,mo[p[1].toLowerCase().slice(0,3)],+p[2]));});
+    }
+    return out.length?out:[new Date(2026,4,16)];
+  }
+  var all=s.match(/(May|Jun|June|Jul|July|Aug|August)\s+(\d+)/gi)||[];
+  all.forEach(function(x){var p=x.match(/(May|Jun|June|Jul|July|Aug|August)\s+(\d+)/i);if(p&&mo[p[1].toLowerCase().slice(0,3)]!==undefined)out.push(new Date(2026,mo[p[1].toLowerCase().slice(0,3)],+p[2]));});
+  return out.length?[out[0]]:[];
+}
+function mk(e,i){
+  var ss=[e.name,e.city,e.venue,e.dates,e.ageNotes,e.cost].filter(Boolean).join(" ").toLowerCase().replace(/"/g,"");
+  var ct=e.category==="child"?'<span class="tg tc">Kids</span>'  :'<span class="tg tf">Family</span>';
+  var ft=fr(e)?'<span class="tg tfr">Free</span>':"";
+  var rt=e.recurring?'<span class="tg tr">Weekly</span>':"";
+  var pa=isPast(e)?"1":"0";
+  return '<div class="ec '+( e.category==="child"?"cc":"cf")+(isPast(e)?" ep":"")+'" data-c="'+e.category+'" data-f="'+( fr(e)?"1":"0")+'" data-s="'+ss+'" data-past="'+pa+'" onclick="om('+i+')">'
+    +'<div class="eh"><div class="en">'+e.name+'</div>'+ct+'</div>'
+    +'<div class="em">'
+    +'<span>&#128197; '+e.dates+'</span>'
+    +(e.time?'<span>&#128336; '+e.time+'</span>':"")
+    +'<span>&#128205; '+(e.venue?e.venue+", ":"")+e.city+'</span>'
+    +(e.cost?'<span>&#128176; '+e.cost+'</span>':"")
+    +'</div>'
+    +'<div class="et">'+ft+rt+'</div>'
+    +(e.ageNotes?'<div class="an">'+e.ageNotes+'</div>':"")
+    +'</div>';
+}
+function buildList(){
+  var h="";
+  var rec=E.map(function(e,i){return{e:e,i:i};}).filter(function(x){return x.e.recurring;});
+  if(rec.length){h+='<div class="mh">&#128198; Recurring All Summer</div>';rec.forEach(function(x){h+=mk(x.e,x.i);});}
+  [{m:4,l:"May 2026"},{m:5,l:"June 2026"},{m:6,l:"July 2026"},{m:7,l:"August 2026"}].forEach(function(obj){
+    var items=E.map(function(e,i){return{e:e,i:i};}).filter(function(x){return !x.e.recurring&&rd(x.e.dates).getMonth()===obj.m;});
+    if(!items.length)return;
+    items.sort(function(a,b){return rd(a.e.dates)-rd(b.e.dates);});
+    h+='<div class="mh">'+obj.l+'</div>';
+    items.forEach(function(x){h+=mk(x.e,x.i);});
+  });
+  document.getElementById("lv").innerHTML=h;
+}
+function buildCal(){
+  var dm={};
+  E.forEach(function(e,i){gd(e).forEach(function(d){var k=d.toISOString().slice(0,10);if(!dm[k])dm[k]=[];dm[k].push({e:e,i:i});});});
+  var ds=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var rs=new Date(2026,4,16),re=new Date(2026,7,17),cur=new Date(2026,4,17);
+  var h='<div class="dhs">'+ds.map(function(d){return'<div class="dhl">'+d+'</div>';}).join("")+'</div>';
+  while(cur<=re){
+    var ws=new Date(cur),we=new Date(cur);we.setDate(we.getDate()+6);
+    var wl=ws.toLocaleDateString("en-US",{month:"short",day:"numeric"})+" – "+we.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+    h+='<div class="wb"><div class="wl">Week of '+wl+'</div><div class="cg">';
+    for(var j=0;j<7;j++){
+      var day=new Date(cur);day.setDate(cur.getDate()+j);
+      var k=day.toISOString().slice(0,10),oor=day<rs||day>re,tod=k===new Date().toISOString().slice(0,10);
+      h+='<div class="cd'+(oor?" oor":"")+(tod?" tod":"")+'"><div class="dn'+(tod?" tn":"")+'">'+day.getDate()+'</div>';
+      var ev=dm[k]||[];
+      ev.slice(0,3).forEach(function(x){
+        var ss=[x.e.name,x.e.city].join(" ").toLowerCase();
+        h+='<div class="ce '+(x.e.category==="child"?"cc":"cf")+'" data-c="'+x.e.category+'" data-f="'+( fr(x.e)?"1":"0")+'" data-s="'+ss+'" data-past="'+(isPast(x.e)?"1":"0")+'" onclick="om('+x.i+')" title="'+x.e.name.replace(/"/g,"&quot;")+'">'+x.e.name+'</div>';
+      });
+      if(ev.length>3)h+='<div class="me">+'+(ev.length-3)+' more</div>';
+      h+='</div>';
+    }
+    h+='</div></div>';
+    cur.setDate(cur.getDate()+7);
+  }
+  document.getElementById("cv").innerHTML=h;
+}
+function buildPrint(){
+  var dm={};
+  E.forEach(function(e){gd(e).forEach(function(d){var k=d.toISOString().slice(0,10);if(!dm[k])dm[k]=[];dm[k].push(e);});});
+  var ds=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var rs=new Date(2026,4,16),re=new Date(2026,7,17),cur=new Date(2026,4,17);
+  var h="";
+  while(cur<=re){
+    var ws=new Date(cur),we=new Date(cur);we.setDate(we.getDate()+6);
+    var wl="WEEK OF "+ws.toLocaleDateString("en-US",{month:"long",day:"numeric"}).toUpperCase()+" – "+we.toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}).toUpperCase();
+    h+='<div class="wp"><div class="wph">'+wl+'</div><div class="wpg">';
+    for(var j=0;j<7;j++){
+      var day=new Date(cur);day.setDate(cur.getDate()+j);
+      var k=day.toISOString().slice(0,10),oor=day<rs||day>re;
+      h+='<div class="wpd'+(oor?" oor":"")+'"><div class="wpdn">'+ds[(cur.getDay()+j)%7]+'</div><div class="wpdt">'+day.getDate()+'</div>';
+      if(!oor)(dm[k]||[]).forEach(function(e){h+='<div class="wpe '+(e.category==="child"?"cc":"cf")+'">'+e.name+'</div>';});
+      h+='</div>';
+    }
+    h+='</div></div>';
+    cur.setDate(cur.getDate()+7);
+  }
+  document.getElementById("pw").innerHTML=h;
+}
+
+function parseICS(text){
+  text=text.replace(/\r?\n[ \t]/g,'');
+  var evs=[],lines=text.split(/\r?\n/),inEv=false,ev={};
+  for(var i=0;i<lines.length;i++){
+    var ln=lines[i];
+    if(ln==='BEGIN:VEVENT'){inEv=true;ev={};continue;}
+    if(ln==='END:VEVENT'){
+      if(ev.name){var p=icsToObj(ev);if(p)evs.push(p);}
+      inEv=false;continue;
+    }
+    if(!inEv)continue;
+    var ci=ln.indexOf(':');if(ci<0)continue;
+    var key=ln.substring(0,ci).split(';')[0].toUpperCase();
+    var val=ln.substring(ci+1);
+    var clean=function(v){return v.replace(/\\,/g,',').replace(/\\;/g,';').replace(/\\n/g,' ').trim();};
+    if(key==='SUMMARY')ev.name=clean(val);
+    else if(key==='DTSTART')ev.dtstart=val.trim();
+    else if(key==='DTEND')ev.dtend=val.trim();
+    else if(key==='LOCATION')ev.location=clean(val);
+    else if(key==='DESCRIPTION')ev.desc=clean(val);
+    else if(key==='URL')ev.url=val.trim();
+  }
+  return evs;
+}
+function icsToObj(ev){
+  var ds=ev.dtstart||'',dateStr='',timeStr=null;
+  var MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if(ds.length>=8){
+    var yr=+ds.slice(0,4),mo=+ds.slice(4,6)-1,dy=+ds.slice(6,8);
+    dateStr=MN[mo]+' '+dy;
+    if(ds.length>=15){
+      var hr=+ds.slice(9,11),mi=+ds.slice(11,13);
+      if(ds.endsWith('Z'))hr=(hr-4+24)%24;
+      var ap=hr>=12?'PM':'AM',h12=hr%12||12;
+      timeStr=h12+':'+(mi<10?'0':'')+mi+' '+ap;
+    }
+  }
+  if(!dateStr)return null;
+  var loc=ev.location||'',venue='',city='';
+  var pts=loc.split(',');
+  if(pts.length>=2){venue=pts[0].trim();city=pts[pts.length-1].trim().replace(/\s*(GA|Georgia)\b.*/i,'').replace(/\s+\d{5}\b.*/,'').trim();}
+  else if(loc){venue=loc;}
+  return{name:ev.name,dates:dateStr,time:timeStr,venue:venue||null,city:city||null,
+    cost:null,ageNotes:ev.desc?ev.desc.substring(0,140):null,url:ev.url||null,
+    category:'family',recurring:false,source:'gcal'};
+}
+function fetchGCal(){
+  var ss=document.getElementById('ss');
+  fetch(PROXY+encodeURIComponent(ICAL_URL))
+    .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
+    .then(function(txt){
+      var newEvs=parseICS(txt),added=0;
+      newEvs.forEach(function(nv){
+        var dup=E.some(function(x){return x.name.toLowerCase()===nv.name.toLowerCase();});
+        if(!dup&&nv.dates){E.push(nv);added++;}
+      });
+      if(added){buildList();buildCal();buildPrint();}
+      if(ss){
+        var now=new Date(),t=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        ss.textContent=added?'+ '+added+' event'+(added>1?'s':'')+' from your calendar · '+t:'✓ Up to date · '+t;
+        ss.style.color='rgba(255,255,255,.9)';
+      }
+    })
+    .catch(function(){if(ss){ss.textContent='⚠️ Calendar sync offline – showing curated events';ss.style.color='rgba(255,200,100,.9)';}});
+}
+document.addEventListener("DOMContentLoaded",function(){buildList();buildCal();buildPrint();fetchGCal();});
+</script>
+</body>
+</html>
