@@ -183,8 +183,8 @@ function om(i){
   document.getElementById("md").textContent=e.dates;
   document.getElementById("mt").textContent=e.time||"";
   document.getElementById("mtr").style.display=e.time?"":"none";
-  document.getElementById("mv").textContent=(e.venue?e.venue+", ":"")+e.city;
-  document.getElementById("mvr").style.display="";
+  document.getElementById("mv").textContent=(e.venue?e.venue+(e.city?', ':''):'')+(e.city||'');
+  document.getElementById("mvr").style.display=(e.venue||e.city)?"":"none";
   document.getElementById("mc").textContent=e.cost||"Check organizer";
   document.getElementById("mcr").style.display="";
   document.getElementById("ma").textContent=e.ageNotes||"";
@@ -345,9 +345,14 @@ function icsToObj(ev){
   var pts=loc.split(',');
   if(pts.length>=2){venue=pts[0].trim();city=pts[pts.length-1].trim().replace(/\s*(GA|Georgia)\b.*/i,'').replace(/\s+\d{5}\b.*/,'').trim();}
   else if(loc){venue=loc;}
-  return{name:ev.name,dates:dateStr,time:timeStr,venue:venue||null,city:city||null,
-    cost:null,ageNotes:ev.desc?ev.desc.substring(0,140):null,url:ev.url||null,
-    category:'family',recurring:false,source:'gcal'};
+  var desc=ev.desc||'';
+  var cat=/\b(baby|babies|infant|toddler|kids|children|ages?\s*0\s*[-–]\s*\d)\b/i.test(desc)?'child':'family';
+  var cost=null;
+  if(/\bfree\b/i.test(desc))cost='Free';
+  else{var cm=desc.match(/\$[\d,]+(?:\.\d+)?(?:\/\w+)?/);if(cm)cost=cm[0];}
+  return{name:ev.name,dates:dateStr,time:timeStr,venue:venue||null,city:city||'',
+    cost:cost,ageNotes:desc?desc.substring(0,140):null,url:ev.url||null,
+    category:cat,recurring:false,source:'gcal'};
 }
 function fetchGCal(){
   var ss=document.getElementById('ss');
@@ -355,7 +360,7 @@ function fetchGCal(){
     .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
     .then(function(data){
       var txt=data.contents||'';
-      if(txt.indexOf('data:')===0){var b64=txt.split(',')[1];txt=atob(b64);}
+      if(txt.indexOf('data:')===0){var b64=txt.split(',')[1];var bytes=Uint8Array.from(atob(b64),function(c){return c.charCodeAt(0);});txt=new TextDecoder('utf-8').decode(bytes);}
       var newEvs=parseICS(txt),added=0;
       newEvs.forEach(function(nv){
         var dup=E.some(function(x){return x.name.toLowerCase()===nv.name.toLowerCase();});
