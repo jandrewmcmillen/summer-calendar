@@ -130,7 +130,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 var E=[];
 var fi="all",se="",showPast=false;
 var ICAL_URL="https://calendar.google.com/calendar/ical/9e7714ddcad76bccd50e26fdaefdcf3a3bce9ec417e01d30c172c6539799dbb6%40group.calendar.google.com/public/basic.ics";
-var PROXY="https://api.allorigins.win/raw?url=";
+var PROXY="https://api.allorigins.win/get?url=";
 function fr(e){return!!(e.cost&&e.cost.toLowerCase().indexOf("free")===0)}
 function rd(s){
   if(!s)return new Date(2026,4,16);
@@ -352,8 +352,10 @@ function icsToObj(ev){
 function fetchGCal(){
   var ss=document.getElementById('ss');
   fetch(PROXY+encodeURIComponent(ICAL_URL))
-    .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
-    .then(function(txt){
+    .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+    .then(function(data){
+      var txt=data.contents||'';
+      if(txt.indexOf('data:')===0){var b64=txt.split(',')[1];txt=atob(b64);}
       var newEvs=parseICS(txt),added=0;
       newEvs.forEach(function(nv){
         var dup=E.some(function(x){return x.name.toLowerCase()===nv.name.toLowerCase();});
