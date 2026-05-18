@@ -321,6 +321,7 @@ function parseICS(text){
     if(key==='SUMMARY')ev.name=clean(val);
     else if(key==='DTSTART')ev.dtstart=val.trim();
     else if(key==='DTEND')ev.dtend=val.trim();
+    else if(key==='RRULE')ev.rrule=val.trim();
     else if(key==='LOCATION')ev.location=clean(val);
     else if(key==='DESCRIPTION')ev.desc=clean(val);
     else if(key==='URL')ev.url=val.trim();
@@ -341,18 +342,29 @@ function icsToObj(ev){
     }
   }
   if(!dateStr)return null;
+  // Detect recurring events via RRULE and extend date range to UNTIL date
+  var rrule=ev.rrule||'',recurring=!!rrule;
+  if(rrule){
+    var um=rrule.match(/UNTIL=(\d{4})(\d{2})(\d{2})/);
+    var MN2=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    if(um)dateStr=dateStr+' – '+MN2[+um[2]-1]+' '+parseInt(um[3],10);
+  }
   var loc=ev.location||'',venue='',city='';
   var pts=loc.split(',');
   if(pts.length>=2){venue=pts[0].trim();city=pts[pts.length-1].trim().replace(/\s*(GA|Georgia)\b.*/i,'').replace(/\s+\d{5}\b.*/,'').trim();}
   else if(loc){venue=loc;}
   var desc=ev.desc||'';
-  var cat=/\b(baby|babies|infant|toddler|kids|children|ages?\s*0\s*[-–]\s*\d)\b/i.test(desc)?'child':'family';
+  // Category: check [KIDS]/[FAMILY] tag first, then name + description keywords
+  var cat='family';
+  if(/\[KIDS\]/i.test(desc))cat='child';
+  else if(/\[FAMILY\]/i.test(desc))cat='family';
+  else if(/\b(baby|babies|infant|toddler|storytime|story time|lego time|mommy|wiggle giggle|rad kids|sensory friendly|vacation bible|vbs|jump time|children'?s book|reading kick.?off|summer sacks|kids day)\b/i.test(ev.name+' '+desc))cat='child';
   var cost=null;
   if(/\bfree\b/i.test(desc))cost='Free';
   else{var cm=desc.match(/\$[\d,]+(?:\.\d+)?(?:\/\w+)?/);if(cm)cost=cm[0];}
   return{name:ev.name,dates:dateStr,time:timeStr,venue:venue||null,city:city||'',
-    cost:cost,ageNotes:desc?desc.substring(0,140):null,url:ev.url||null,
-    category:cat,recurring:false,source:'gcal'};
+    cost:cost,ageNotes:desc||null,url:ev.url||null,
+    category:cat,recurring:recurring,source:'gcal'};
 }
 function fetchGCal(){
   var ss=document.getElementById('ss');
